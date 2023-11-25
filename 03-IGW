@@ -1,0 +1,13 @@
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.Black_Dragons_64.id
+
+  tags = {
+    Name = "Black_Dragons"
+    service = "Red pill production"
+   #Service = "application1"
+   #Owner = "Chewbacca"
+   Owner = "Iron Man"
+   #Planet = "Mustafar"
+   planet = "Alpha Centauri"
+  }
+}
