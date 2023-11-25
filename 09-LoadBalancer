@@ -1,0 +1,34 @@
+resource "aws_lb" "Black_Dragons_64_alb" {
+  name               = "BlackDragons64-load-balancer"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.Black_Dragons_64_SG01_servers.id] # "aws_security_group" "Black_Dragons_64_SG01_servers"
+  subnets            = [
+    aws_subnet.public-ap-southeast-3a.id,
+    aws_subnet.public-ap-southeast-3b.id,
+    aws_subnet.public-ap-southeast-3c.id,
+  ]
+  enable_deletion_protection = false
+#Lots of death and suffering here, make sure it's false
+
+  tags = {
+    Name = "Black_Dragons"
+    service = "Red pill production"
+   #Service = "application1"
+   #Owner = "Chewbacca"
+   Owner = "Iron Man"
+   #Planet = "Mustafar"
+   planet = "Alpha Centauri"
+  }
+}
+
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.Black_Dragons_64_alb.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.Black_Dragons_64_tg.arn
+  }
+}
